@@ -105,6 +105,18 @@ this["MediumInsert"]["Templates"]["src/js/templates/embeds-wrapper.hbs"] = Handl
     + "\n		</div>\n	</figure>\n	<div class=\"medium-insert-embeds-overlay\"></div>\n</div>";
 },"useData":true});
 
+this["MediumInsert"]["Templates"]["src/js/templates/gallery-modal.hbs"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    return "                <figure><img class=\"medium-insert-gallery-image\" src=\""
+    + container.escapeExpression(container.lambda(depth0, depth0))
+    + "\" alt=\"\"></figure>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<div class=\"medium-insert-gallery-modal\">\n    <div class=\"medium-insert-gallery-modal-guts\">\n        <h1>Select images to insert</h1>\n        <div class=\"medium-insert-gallery-images medium-insert-images medium-insert-images-grid\">\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.images : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "        </div>\n        <div class=\"medium-insert-gallery-actions\">\n            <button id=\"medium-insert-gallery-cancel\">Cancel</button>\n            <button id=\"medium-insert-gallery-confirm\">Confirm</button>\n        </div>\n    </div>\n</div>";
+},"useData":true});
+
 this["MediumInsert"]["Templates"]["src/js/templates/images-fileupload.hbs"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<input type=\"file\" multiple>";
 },"useData":true});
@@ -174,7 +186,8 @@ this["MediumInsert"]["Templates"]["src/js/templates/images-toolbar.hbs"] = Handl
             enabled: true,
             addons: {
                 images: true, // boolean or object containing configuration
-                embeds: true
+                embeds: true,
+                gallery: true
             }
         };
 
@@ -1565,6 +1578,154 @@ this["MediumInsert"]["Templates"]["src/js/templates/images-toolbar.hbs"] = Handl
         return this.each(function () {
             if (!$.data(this, 'plugin_' + pluginName + addonName)) {
                 $.data(this, 'plugin_' + pluginName + addonName, new Embeds(this, options));
+            }
+        });
+    };
+
+})(jQuery, window, document);
+
+;(function ($, window, document, undefined) {
+
+    'use strict';
+
+    /** Default values */
+    var pluginName = 'mediumInsert',
+        addonName = 'Gallery', // first char is uppercase
+        defaults = {
+            label: '<span class="fa fa-folder-open"></span>',
+            images: []
+        };
+
+    /**
+     * Custom Addon object
+     *
+     * Sets options, variables and calls init() function
+     *
+     * @constructor
+     * @param {DOM} el - DOM element to init the plugin on
+     * @param {object} options - Options to override defaults
+     * @return {void}
+     */
+
+    function Gallery(el, options) {
+        this.el = el;
+        this.$el = $(el);
+        this.templates = window.MediumInsert.Templates;
+        this.core = this.$el.data('plugin_' + pluginName);
+        this.options = $.extend(true, {}, defaults, options);
+        this._defaults = defaults;
+        this._name = pluginName;
+
+        this.init();
+    }
+
+    /**
+     * Initialization
+     *
+     * @return {void}
+     */
+
+    Gallery.prototype.init = function () {
+        this.$modal = $(this.templates["src/js/templates/gallery-modal.hbs"]({
+            images: this.options.images
+        }).trim());
+
+        if ($('.medium-insert-gallery-modal').length === 0) {
+            $('body').append(this.$modal);
+        } else {
+            $('.medium-insert-gallery-modal').replaceWith(this.$modal);
+        }
+
+        this.$modal.hide();
+
+        this.events();
+    };
+
+    /**
+     * Event listeners
+     *
+     * @return {void}
+     */
+
+    Gallery.prototype.events = function () {
+        this.$modal
+            .on('click', '.medium-insert-gallery-image', $.proxy(this, 'selectImage'))
+            .on('click', '#medium-insert-gallery-confirm', $.proxy(this, 'confirm'))
+            .on('click', '#medium-insert-gallery-cancel', $.proxy(this, 'cancel'));
+    };
+
+    /**
+     * Get the Core object
+     *
+     * @return {object} Core object
+     */
+    Gallery.prototype.getCore = function () {
+        return this.core;
+    };
+
+    /**
+     * Add custom content
+     *
+     * This function is called when user click on the addon's icon
+     *
+     * @return {void}
+     */
+
+    Gallery.prototype.add = function () {
+        this.core.hideButtons();
+        this.$modal.show();
+    };
+
+    Gallery.prototype.selectImage = function (e) {
+        var $image = $(e.target);
+
+        $image.toggleClass('medium-insert-gallery-image-active');
+    };
+
+    Gallery.prototype.confirm = function (e) {
+        var that = this,
+            $place = this.$el.find('.medium-insert-active');
+
+        e.preventDefault();
+
+        $place.click();
+        $place.addClass('medium-insert-images');
+
+        $('.medium-insert-gallery-image-active')
+            .each(function () {
+                var $image = $(that.templates['src/js/templates/images-image.hbs']({
+                    img: $(this).attr('src')
+                })).appendTo($place);
+
+                $(this).removeClass('medium-insert-gallery-image-active');
+
+                if (that.options.captions) {
+                    that.core.addCaption($image.closest('figure'), that.options.captionPlaceholder);
+                }
+            });
+
+        $place.find('br').remove();
+
+        this.$modal.hide();
+    };
+
+    Gallery.prototype.cancel = function (e) {
+        e.preventDefault();
+
+        $('.medium-insert-gallery-image-active')
+            .each(function () {
+                $(this).removeClass('medium-insert-gallery-image-active');
+            });
+
+        this.$modal.hide();
+    };
+
+    /** Addon initialization */
+
+    $.fn[pluginName + addonName] = function (options) {
+        return this.each(function () {
+            if (!$.data(this, 'plugin_' + pluginName + addonName)) {
+                $.data(this, 'plugin_' + pluginName + addonName, new Gallery(this, options));
             }
         });
     };

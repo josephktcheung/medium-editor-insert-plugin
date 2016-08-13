@@ -1,0 +1,14 @@
+<div class="medium-insert-gallery-modal">
+    <div class="medium-insert-gallery-modal-guts">
+        <h1>Select images to insert</h1>
+        <div class="medium-insert-gallery-images medium-insert-images medium-insert-images-grid">
+            {{#each images}}
+                <figure><img class="medium-insert-gallery-image" src="{{this}}" alt=""></figure>
+            {{/each}}
+        </div>
+        <div class="medium-insert-gallery-actions">
+            <button id="medium-insert-gallery-cancel">Cancel</button>
+            <button id="medium-insert-gallery-confirm">Confirm</button>
+        </div>
+    </div>
+</div>

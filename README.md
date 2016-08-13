@@ -12,6 +12,7 @@ Current available addons:
 
 - **images**
 - **embeds** (either through oEmbed proxy, such as [Iframely](https://iframely.com/), or pre-defined parsers such as - Youtube, Vimeo, Twitter, Facebook, Instagram)
+- **gallery**
 
 
 ## Demo

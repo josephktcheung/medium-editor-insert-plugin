@@ -28,18 +28,14 @@
     margin: 0 0 20px 30px; }
   .medium-insert-images.medium-insert-images-grid, .medium-insert-images-grid.mediumInsert {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
     -webkit-box-align: start;
-    -webkit-align-items: flex-start;
         -ms-flex-align: start;
             align-items: flex-start;
     -webkit-box-pack: center;
-    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
     margin: 0.5em -0.5em; }
@@ -119,7 +115,6 @@
     .medium-editor-insert-plugin .medium-insert-buttons .medium-insert-buttons-show {
       font-size: 25px;
       -webkit-transform: rotate(0);
-          -ms-transform: rotate(0);
               transform: rotate(0);
       -webkit-transition: -webkit-transform 100ms;
               transition: transform 100ms; }
@@ -130,7 +125,6 @@
         -webkit-transition: -webkit-transform 250ms;
                 transition: transform 250ms;
         -webkit-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
                 transform: rotate(45deg); }
     .medium-editor-insert-plugin .medium-insert-buttons .medium-insert-buttons-addons {
       margin: 0;
@@ -213,3 +207,51 @@
   height: 100%;
   top: 0;
   left: 0; }
+
+.medium-insert-gallery-modal {
+  /* This way it could be display flex or grid or whatever also. */
+  display: block;
+  /* Probably need media queries here */
+  width: 600px;
+  max-width: 100%;
+  height: 400px;
+  max-height: 100%;
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  top: 50%;
+  /* Use this for centering if unknown width/height */
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  /* If known, negative margins are probably better (less chance of blurry text). */
+  /* margin: -200px 0 0 -200px; */
+  background: white;
+  box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9); }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+.medium-insert-gallery-modal-guts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 20px 50px 20px 20px; }
+  .medium-insert-gallery-modal-guts h1 {
+    margin: 0 0 20px 0; }
+
+.medium-insert-gallery-actions {
+  position: absolute;
+  bottom: 25px;
+  left: 25%;
+  width: 50%; }
+  .medium-insert-gallery-actions button {
+    width: 50%;
+    float: left; }
+
+.medium-insert-gallery-image-active {
+  outline: 2px solid #000; }

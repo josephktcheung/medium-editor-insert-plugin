@@ -69,6 +69,7 @@
     <script src="../src/js/core.js"></script>
     <script src="../src/js/embeds.js"></script>
     <script src="../src/js/images.js"></script>
+    <script src="../src/js/gallery.js"></script>
 
     <script>
         var editor = new MediumEditor('.editable');
@@ -81,6 +82,14 @@
                         fileUploadOptions: {
                             url: 'upload.php'
                         }
+                    },
+                    gallery: {
+                        images: [
+                            './uploads/01.jpg',
+                            'http://handlebarsjs.com/images/handlebars_logo.png',
+                            'https://facebook.github.io/react/img/logo.svg',
+                            'http://www.mainlinemenswear.co.uk/blog/wp-content/uploads/2016/05/Olympics-2016.jpg'
+                        ]
                     }
                 }
             });
