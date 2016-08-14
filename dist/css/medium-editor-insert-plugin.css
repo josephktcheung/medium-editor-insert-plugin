@@ -227,31 +227,24 @@
   /* margin: -200px 0 0 -200px; */
   background: white;
   box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9); }
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0; }
-
-.medium-insert-gallery-modal-guts {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  padding: 20px 50px 20px 20px; }
-  .medium-insert-gallery-modal-guts h1 {
-    margin: 0 0 20px 0; }
-
-.medium-insert-gallery-actions {
-  position: absolute;
-  bottom: 25px;
-  left: 25%;
-  width: 50%; }
-  .medium-insert-gallery-actions button {
-    width: 50%;
-    float: left; }
-
-.medium-insert-gallery-image-active {
-  outline: 2px solid #000; }
+  .medium-insert-gallery-modal * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0; }
+  .medium-insert-gallery-modal .medium-insert-gallery-modal-guts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 20px 50px 20px 20px; }
+    .medium-insert-gallery-modal .medium-insert-gallery-modal-guts h1 {
+      margin: 0 0 20px 0; }
+  .medium-insert-gallery-modal .medium-insert-gallery-actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1; }
+  .medium-insert-gallery-modal .medium-insert-gallery-image-active {
+    outline: 2px solid #000; }
