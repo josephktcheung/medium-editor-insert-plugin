@@ -62,8 +62,23 @@ describe('Gallery addon', function () {
         expect($firstImage.hasClass('medium-insert-gallery-image-active')).toBe(false);
     });
 
-    it('inserts selected images after clicking confirm', function () {
+    it('converts original p tag to div after clicking confirm', function () {
         this.$el.find('p').addClass('medium-insert-active');
+
+        $('.medium-insert-gallery-image')
+            .first()
+            .click();
+
+        $('#medium-insert-gallery-confirm').click();
+
+        jasmine.clock().tick(50);
+
+        expect(this.$el.find('p.medium-insert-images').length).toEqual(0);
+        expect(this.$el.find('div.medium-insert-images').length).toEqual(1);
+    });
+
+    it('inserts selected images after clicking confirm', function () {
+        this.$el.find('div').addClass('medium-insert-active');
 
         $('.medium-insert-gallery-image')
             .first()
